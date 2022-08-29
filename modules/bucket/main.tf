@@ -1,18 +1,10 @@
 resource "google_storage_bucket" "bucket" {
+
+  for_each = toset("${lookup(var.bucket_name, "${var.project_name}")}")
+
+/*for_each = toset(var.my-var)*/
   name     = var.name
   location = var.location
   project  = var.project
-
-  // Test comment
-  dynamic "lifecycle_rule" {
-    for_each = var.bucket-lifecycle == false ? [] : [1]
-    content {
-      condition {
-        age = 1
-      }
-      action {
-        type = "Delete"
-      }
-    }
-  }
 }
+
